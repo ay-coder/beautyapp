@@ -1,6 +1,6 @@
 <div class="box-body">
     <div class="form-group">
-        {{ Form::label('name', 'Title :', ['class' => 'col-lg-2 control-label']) }}
+        {{ Form::label('name', 'Product Name :', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
             {{ Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Title', 'required' => 'required']) }}
         </div>
@@ -9,10 +9,27 @@
 
 <div class="box-body">
     <div class="form-group">
-        {{ Form::label('category_id', 'Choose Category :', ['class' => 'col-lg-2 control-label']) }}
-
+        {{ Form::label('company_name', 'company_name :', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::select('category_id', $categoryRepository->getSelectOptions('id', 'title') , null, ['class' => 'form-control', 'required']) }}
+            {{ Form::text('company_name', null, ['class' => 'form-control', 'placeholder' => 'Company Name', 'required' => 'required']) }}
+        </div>
+    </div>
+</div>
+
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('product_type', 'product_type :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::text('product_type', null, ['class' => 'form-control', 'placeholder' => 'Product Type', 'required' => 'required']) }}
+        </div>
+    </div>
+</div>
+
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('product_type', 'Product Sub Type :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::text('product_sub_type', null, ['class' => 'form-control', 'placeholder' => 'Product Sub Type', 'required' => 'required']) }}
         </div>
     </div>
 </div>
@@ -21,25 +38,45 @@
     <div class="form-group">
         {{ Form::label('product_code', 'Product Code :', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::text('product_code', null, ['class' => 'form-control', 'placeholder' => 'Product Code', 'required' => 'required']) }}
+            {{ Form::text('product_code', null, ['class' => 'form-control', 'placeholder' => 'Product Code']) }}
         </div>
     </div>
 </div>
 
 <div class="box-body">
     <div class="form-group">
-        {{ Form::label('price', 'Price :', ['class' => 'col-lg-2 control-label']) }}
+        {{ Form::label('barcode', 'Barcode :', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::number('price', isset($item->price) ? $item->price : 0.00, ['min' => 0.00, 'step' => 0.1, 'class' => 'form-control', 'placeholder' => 'Price', 'required' => 'required']) }}
+            {{ Form::text('barcode', null, ['class' => 'form-control', 'placeholder' => 'Barcode']) }}
         </div>
     </div>
 </div>
 
 <div class="box-body">
     <div class="form-group">
-        {{ Form::label('qty', 'Quantity :', ['class' => 'col-lg-2 control-label']) }}
+        {{ Form::label('manufacturer_sku', 'Manufacturer SKU :', ['class' => 'col-lg-2 control-label']) }}
         <div class="col-lg-10">
-            {{ Form::number('qty', isset($item->qty) ? $item->qty : 1, ['min' => 1, 'step' => 1, 'class' => 'form-control', 'placeholder' => 'Quantity', 'required' => 'required']) }}
+            {{ Form::text('manufacturer_sku', null, ['class' => 'form-control', 'placeholder' => 'Manufacturer SKU']) }}
+        </div>
+    </div>
+</div>
+
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('retailer_sku', 'Retailer SKU :', ['class' => 'col-lg-2 control-label']) }}
+        <div class="col-lg-10">
+            {{ Form::text('retailer_sku', null, ['class' => 'form-control', 'placeholder' => 'Retailer SKU']) }}
+        </div>
+    </div>
+</div>
+
+<div class="box-body">
+    <div class="form-group">
+        {{ Form::label('ingredients', 'Choose Ingredients :', ['class' => 'col-lg-2 control-label']) }}
+
+        <div class="col-lg-10">
+            {{ Form::select('ingredients[]', $ingredientRepository->getSelectOptions('id', 'title'),
+                     isset($item) ? $item->ingredients->pluck('id') : [], ['class' => 'form-control', 'multiple' => 'multiple', 'required']) }}
         </div>
     </div>
 </div>

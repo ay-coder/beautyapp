@@ -9,20 +9,8 @@
         <title>@yield('title', app_name())</title>
 
         <!-- Meta -->
-        <meta name="description" content="@yield('meta_description', 'Super Gems')">
-        <meta name="author" content="@yield('meta_author', 'WVE Labs')">
-
-        {{ Html::style('css/bootstrap.min.css') }}
-        {{ Html::style('css/font-awesome.min.css') }}
-        {{ Html::style('css/slick-theme.css') }}
-        {{ Html::style('css/sliderstyle.css') }}
-
-
-        {{ Html::style('css/style.css') }}
-        {{ Html::style('css/responsive.css') }}
-
-        
-        <link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+        <meta name="description" content="@yield('meta_description', 'Laravel 5 Boilerplate')">
+        <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
         @yield('meta')
 
         <!-- Styles -->
@@ -30,6 +18,12 @@
 
         <!-- Check if the language is set to RTL, so apply the RTL layouts -->
         <!-- Otherwise apply the normal LTR layouts -->
+        @langRTL
+            {{ Html::style(getRtlCss(mix('css/frontend.css'))) }}
+        @else
+            {{ Html::style(mix('css/frontend.css')) }}
+        @endif
+
         @yield('after-styles')
 
         <!-- Scripts -->
@@ -42,29 +36,19 @@
     <body id="app-layout">
         <div id="app">
             @include('includes.partials.logged-in-as')
-            
+            @include('frontend.includes.nav')
 
-            <div class="container-fluid1">
+            <div class="container">
                 @include('includes.partials.messages')
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-
                 @yield('content')
             </div><!-- container -->
         </div><!--#app-->
 
         <!-- Scripts -->
         @yield('before-scripts')
-
-
         {!! Html::script(mix('js/frontend.js')) !!}
         @yield('after-scripts')
         <script type="text/javascript" src="{!! asset('js/custom/custom.js') !!}"></script>
-      
-        @yield('footer-js')
-
-        
+        @include('includes.partials.ga')
     </body>
 </html>

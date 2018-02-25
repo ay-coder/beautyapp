@@ -30,17 +30,14 @@ class EloquentProductRepository extends DbRepository
 	 * @var array
 	 */
 	public $tableHeaders = [
-		'title' 		=> 'Title',
-		'category' 		=> 'Category',
-		'price' 		=> 'Price',
-		'qty' 			=> 'Qty',
-		'product_code' 	=> 'Product Code',
-		'description' 	=> 'Description',
-		'image' 		=> 'Image',
-		'image1' 		=> 'Image 1',
-		'image2' 		=> 'Image 2',
-		'image3' 		=> 'Image 3',
-		'actions' 		=> 'Actions'
+		'title' 			=> 'Title',
+		'company_name' 		=> 'Company Name',
+		'product_type' 		=> 'Product Type',
+		'product_sub_type' 	=> 'Product Sub Type',
+		'barcode' 			=> 'Barcode',
+		'manufacturer_sku' 	=> 'Manufacturer SKU',
+		'retailer_sku' 		=> 'Retailer SKU',
+		'actions' 			=> 'Actions'
 	];
 
 	/**
@@ -55,59 +52,41 @@ class EloquentProductRepository extends DbRepository
 			'searchable' 	=> true, 
 			'sortable'		=> true
 		],
-		'category' => [
-			'data' 			=> 'category',
-			'name' 			=> 'category',
+		'company_name' => [
+			'data' 			=> 'company_name',
+			'name' 			=> 'company_name',
 			'searchable' 	=> true, 
 			'sortable'		=> true
 		],
-		'price' => [
-			'data' 			=> 'price',
-			'name' 			=> 'price',
+		'product_type' => [
+			'data' 			=> 'product_type',
+			'name' 			=> 'product_type',
 			'searchable' 	=> true, 
 			'sortable'		=> true
 		],
-		'qty' => [
-			'data' 			=> 'qty',
-			'name' 			=> 'qty',
+		'product_sub_type' => [
+			'data' 			=> 'product_sub_type',
+			'name' 			=> 'product_sub_type',
 			'searchable' 	=> true, 
 			'sortable'		=> true
 		],
-		'product_code' => [
-			'data' 			=> 'product_code',
-			'name' 			=> 'product_code',
+		'barcode' => [
+			'data' 			=> 'barcode',
+			'name' 			=> 'barcode',
 			'searchable' 	=> true, 
 			'sortable'		=> true
 		],
-		'description' => [
-			'data' 			=> 'description',
-			'name' 			=> 'description',
+		'manufacturer_sku' => [
+			'data' 			=> 'manufacturer_sku',
+			'name' 			=> 'manufacturer_sku',
 			'searchable' 	=> true, 
 			'sortable'		=> true
 		],
-		'image' => [
-			'data' 			=> 'image',
-			'name' 			=> 'image',
-			'searchable' 	=> false, 
-			'sortable'		=> false
-		],
-		'image1' => [
-			'data' 			=> 'image1',
-			'name' 			=> 'image1',
-			'searchable' 	=> false, 
-			'sortable'		=> false
-		],
-		'image2' => [
-			'data' 			=> 'image2',
-			'name' 			=> 'image2',
-			'searchable' 	=> false, 
-			'sortable'		=> false
-		],
-		'image3' => [
-			'data' 			=> 'image3',
-			'name' 			=> 'image3',
-			'searchable' 	=> false, 
-			'sortable'		=> false
+		'retailer_sku' => [
+			'data' 			=> 'retailer_sku',
+			'name' 			=> 'retailer_sku',
+			'searchable' 	=> true, 
+			'sortable'		=> true
 		],
 		'actions' => [
 			'data' 			=> 'actions',
@@ -187,7 +166,6 @@ class EloquentProductRepository extends DbRepository
 	public function __construct()
 	{
 		$this->model 			= new Product;
-		$this->categoryModel 	= new Category;
 	}
 
 	/**
@@ -203,6 +181,9 @@ class EloquentProductRepository extends DbRepository
 
 		if($model)
 		{
+			// Attach Ingredients
+			$this->attachIngredients($model, $input);
+
 			return $model;
 		}
 
@@ -223,6 +204,9 @@ class EloquentProductRepository extends DbRepository
 		if($model)
 		{
 			$input = $this->prepareInputData($input);		
+				
+			// Attach Ingredients
+			$this->attachIngredients($model, $input);
 			
 			return $model->update($input);
 		}
@@ -294,14 +278,17 @@ class EloquentProductRepository extends DbRepository
 			$this->model->getTable().'.title',
 			$this->model->getTable().'.price',
 			$this->model->getTable().'.product_code',
+			$this->model->getTable().'.product_type',
+			$this->model->getTable().'.product_sub_type',
+			$this->model->getTable().'.barcode',
 			$this->model->getTable().'.description',
-			$this->model->getTable().'.qty',
+			$this->model->getTable().'.company_name',
+			$this->model->getTable().'.manufacturer_sku',
+			$this->model->getTable().'.retailer_sku',
 			$this->model->getTable().'.image',
 			$this->model->getTable().'.image1',
 			$this->model->getTable().'.image2',
-			$this->model->getTable().'.image3',
-			$this->categoryModel->getTable().'.title as category',
-
+			$this->model->getTable().'.image3'
 		];
     }
 
@@ -311,7 +298,6 @@ class EloquentProductRepository extends DbRepository
     public function getForDataTable()
     {
     	return  $this->model->select($this->getTableFields())
-    				->leftjoin($this->categoryModel->getTable(), $this->categoryModel->getTable().'.id', '=', $this->model->getTable().'.category_id')
     				->get();
         
     }
@@ -338,6 +324,14 @@ class EloquentProductRepository extends DbRepository
     public function prepareInputData($input = array(), $isCreate = false)
     {
     	return $input;
+    }
+
+    public function attachIngredients($model = null, $input = array())
+    {
+    	if(isset($input['ingredients']))
+    	{
+    		return $model->ingredients()->sync($input['ingredients']);
+    	}
     }
 
     /**

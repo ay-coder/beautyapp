@@ -25,7 +25,6 @@ class Product extends BaseModel
      *
      */
     protected $fillable = [
-        'category_id',
         'title',
         'description',
         'product_code',
@@ -35,6 +34,12 @@ class Product extends BaseModel
         'image1',
         'image2',
         'image3',
+        'company_name',
+        'product_type',
+        'product_sub_type',
+        'barcode',
+        'manufacturer_sku',
+        'retailer_sku'
     ];
 
     /**

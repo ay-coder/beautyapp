@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Yajra\Datatables\Facades\Datatables;
 use App\Repositories\Product\EloquentProductRepository;
 use App\Repositories\Category\EloquentCategoryRepository;
+use App\Repositories\Ingredient\EloquentIngredientRepository;
 use Html;
 
 /**
@@ -48,8 +49,9 @@ class AdminProductController extends Controller
 	 */
 	public function __construct()
 	{
-		$this->repository         = new EloquentProductRepository;
-        $this->categoryRepository = new EloquentCategoryRepository;
+        $this->repository             = new EloquentProductRepository;
+        $this->categoryRepository     = new EloquentCategoryRepository;
+        $this->ingredientRepository   = new EloquentIngredientRepository;
 	}
 
     /**
@@ -59,10 +61,6 @@ class AdminProductController extends Controller
      */
     public function index()
     {
-            $general = 'https://news.google.com/news/rss/?gl=US&ned=us';
-            $url    = 'https://news.google.com/news/rss/search/section/q/share market/share market?hl=en&gl=US&ned=us';
-            
-
         return view($this->repository->setAdmin(true)->getModuleView('listView'))->with([
             'repository' => $this->repository
         ]);
@@ -107,7 +105,7 @@ class AdminProductController extends Controller
     {
         return view($this->repository->setAdmin(true)->getModuleView('createView'))->with([
             'repository'            => $this->repository,
-            'categoryRepository'    => $this->categoryRepository
+            'ingredientRepository'  => $this->ingredientRepository
         ]);
     }
 
@@ -166,7 +164,7 @@ class AdminProductController extends Controller
         return view($this->repository->setAdmin(true)->getModuleView('editView'))->with([
             'item'                  => $event,
             'repository'            => $this->repository,
-            'categoryRepository'    => $this->categoryRepository
+            'ingredientRepository'  => $this->ingredientRepository
         ]);
     }
 
@@ -233,10 +231,14 @@ class AdminProductController extends Controller
     {
         return Datatables::of($this->repository->getForDataTable())
 		    ->escapeColumns(['title', 'sort'])
-            ->escapeColumns(['category', 'sort'])
+            
             ->escapeColumns(['price', 'sort'])
             ->escapeColumns(['qty', 'sort'])
             ->escapeColumns(['description', 'sort'])
+             ->addColumn('company_name', function ($item) 
+             {
+              return isset($item->company_name) ? $item->company_name : 'N/A';
+             })
             ->addColumn('image', function ($item) 
             {
                 if(file_exists(public_path('uploads/product/'.$item->image)))

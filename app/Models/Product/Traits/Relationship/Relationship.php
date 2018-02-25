@@ -1,11 +1,11 @@
 <?php namespace App\Models\Product\Traits\Relationship;
 
-use App\Models\Category\Category;
+use App\Models\Ingredient\Ingredient;
 
 trait Relationship
 {
-	public function category()
+	public function ingredients()
 	{
-	    return $this->belongsTo(Category::class);
+	    return $this->belongsToMany(Ingredient::class, 'product_ingredients_map_table');
 	}
 }

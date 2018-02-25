@@ -1,83 +1,139 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-<body class="home-bg">
+    <div class="row">
 
-@include('frontend.jewel.menu')
+        <div class="col-xs-12">
 
-<main role="main" id="main-container">
-    <div class="container h-100">
-        <div class="row h-100 d-flex align-items-center">
-            <div class="col-lg-5">
-                <h2>Pellentesque sed metus sit amet leo pulvinar euismod</h2>
-                <div class="home-content mb-3">Integer euismod molestie quam, non feugiat augue rhoncus suscipit. Proin id est non sapien feugiat fermentum. Duis mollis sagittis ligula, vel lacinia massa. Sed id posuere odio.</div>
-                    <a href="#" class="btn shop-btn">Shop Now</a>
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ trans('navs.frontend.dashboard') }}</div>
 
-            </div>
-        </div>
-</main>
+                <div class="panel-body">
 
-   <footer id="footer">
-    <div class="container-fluid">
-        <div class="row d-flex align-items-center d-flex">
-            <div class="col-lg-5 col-md-5 col-sm-12 text-center text-lg-left pb-3 pb-lg-0">
-                <ul class="footer-link">
-                    <li><a href="#">Client Services</a></li>
-                    <li><a href="#">Corporate</a></li>
-                    <li><a href="#">Catelogs</a></li>
-                    <li><a href="#">Legal Terms</a></li>
-                    <li><a href="#">Help</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-2 col-md-1 col-sm-12 text-center pb-3 pb-lg-0">
-               <a href="#"><img src="images/logo.png" alt="footer-logo" width="50"></a>
-            </div>
-            <div class="col-lg-5 col-md-6 col-sm-12 text-center text-lg-right">
-                <div class="d-inline-block position-relative mr-lg-4 mr-0">
-                    <input type="text" placeholder="Newsletter Singup" class="newsletter">
-                    <input type="submit" value="" id="send-newsletter" class="newsletter-btn">
-                </div>
-                <ul class="footer-social d-inline-block">
-                    <li>Follow Us</li>
-                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                    <div class="row">
 
-                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                    <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
-                    <li><a href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-   </footer>
-@endsection
+                        <div class="col-md-4 col-md-push-8">
 
-@section('footer')
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"><\/script>')</script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/slick.min.js"></script>
-<script type="text/javascript">
-    var slick = $('.stack').slick({
-        centerPadding: '50px',
-        centerMode: true,
-        infinite: true,
-        arrows: true,
-        draggable: false,
-        touchMove: true,
-        variableWidth: true,
-        dots: false,
-        //swipeToSlide: true,
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        focusOnSelect: true,
-        mobileFirst: true
-    });
+                            <ul class="media-list">
+                                <li class="media">
+                                    <div class="media-left">
+                                        <img class="media-object" src="{{ $logged_in_user->picture }}" alt="Profile picture">
+                                    </div><!--media-left-->
 
-</script>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">
+                                            {{ $logged_in_user->name }}<br/>
+                                            <small>
+                                                {{ $logged_in_user->email }}<br/>
+                                                Joined {{ $logged_in_user->created_at->format('F jS, Y') }}
+                                            </small>
+                                        </h4>
 
+                                        {{ link_to_route('frontend.user.account', trans('navs.frontend.user.account'), [], ['class' => 'btn btn-info btn-xs']) }}
+
+                                        @permission('view-backend')
+                                            {{ link_to_route('admin.dashboard', trans('navs.frontend.user.administration'), [], ['class' => 'btn btn-danger btn-xs']) }}
+                                        @endauth
+                                    </div><!--media-body-->
+                                </li><!--media-->
+                            </ul><!--media-list-->
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>Sidebar Item</h4>
+                                </div><!--panel-heading-->
+
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.
+                                </div><!--panel-body-->
+                            </div><!--panel-->
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>Sidebar Item</h4>
+                                </div><!--panel-heading-->
+
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.
+                                </div><!--panel-body-->
+                            </div><!--panel-->
+                        </div><!--col-md-4-->
+
+                        <div class="col-md-8 col-md-pull-4">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4>Item</h4>
+                                        </div><!--panel-heading-->
+
+                                        <div class="panel-body">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.</p>
+                                        </div><!--panel-body-->
+                                    </div><!--panel-->
+                                </div><!--col-xs-12-->
+                            </div><!--row-->
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4>Item</h4>
+                                        </div><!--panel-heading-->
+
+                                        <div class="panel-body">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.</p>
+                                        </div><!--panel-body-->
+                                    </div><!--panel-->
+                                </div><!--col-md-6-->
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4>Item</h4>
+                                        </div><!--panel-heading-->
+
+                                        <div class="panel-body">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.</p>
+                                        </div><!--panel-body-->
+                                    </div><!--panel-->
+                                </div><!--col-md-6-->
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4>Item</h4>
+                                        </div><!--panel-heading-->
+
+                                        <div class="panel-body">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.</p>
+                                        </div><!--panel-body-->
+                                    </div><!--panel-->
+                                </div><!--col-md-6-->
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4>Item</h4>
+                                        </div><!--panel-heading-->
+
+                                        <div class="panel-body">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.</p>
+                                        </div><!--panel-body-->
+                                    </div><!--panel-->
+                                </div><!--col-md-6-->
+
+                            </div><!--row-->
+
+                        </div><!--col-md-8-->
+
+                    </div><!--row-->
+
+                </div><!--panel body-->
+
+            </div><!-- panel -->
+
+        </div><!-- col-md-10 -->
+
+    </div><!-- row -->
 @endsection

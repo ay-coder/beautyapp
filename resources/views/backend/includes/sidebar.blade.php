@@ -39,12 +39,12 @@
 
             <li class="header">{{ trans('menus.backend.sidebar.system') }}</li>
 
-            <li class="{{ active_class(Active::checkUriPattern('admin/category')) }}">
+           {{-- <li class="{{ active_class(Active::checkUriPattern('admin/category')) }}">
                 <a href="{{ route('admin.category.index') }}">
                     <i class="fa fa-list" aria-hidden="true"></i>
                     <span>Manage Category</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="{{ active_class(Active::checkUriPattern('admin/product')) }}">
                 <a href="{{ route('admin.product.index') }}">
@@ -53,12 +53,19 @@
                 </a>
             </li>
 
-            <li class="{{ active_class(Active::checkUriPattern('admin/order')) }}">
+            <li class="{{ active_class(Active::checkUriPattern('admin/ingredient')) }}">
+                <a href="{{ route('admin.ingredient.index') }}">
+                    <i class="fa fa-list" aria-hidden="true"></i>
+                    <span>Manage Ingredients</span>
+                </a>
+            </li>
+
+           {{--  <li class="{{ active_class(Active::checkUriPattern('admin/order')) }}">
                 <a href="{{ route('admin.order.index') }}">
                     <i class="fa fa-product-hunt" aria-hidden="true"></i>
                     <span>Manage Orders</span>
                 </a>
-            </li>
+            </li> --}}
             @role(1)
             <li class="{{ active_class(Active::checkUriPattern('admin/access/*')) }} treeview">
                 <a href="#">
@@ -75,7 +82,7 @@
                         </a>
                     </li>
 
-                    <li class="{{ active_class(Active::checkUriPattern('admin/tiers')) }}">
+                    {{-- <li class="{{ active_class(Active::checkUriPattern('admin/tiers')) }}">
                         <a href="{{ route('admin.tiers.index') }}">
                             <i class="fa fa-circle-o"></i>
                             <span>Manage Tiers</span>
@@ -87,7 +94,7 @@
                             <i class="fa fa-circle-o"></i>
                             <span>Tier Permission Manager</span>
                         </a>
-                    </li>
+                    </li> --}}
 
                     {{-- <li class="{{ active_class(Active::checkUriPattern('admin/access/role*')) }}">
                         <a href="{{ route('admin.access.role.index') }}">
